@@ -1,6 +1,9 @@
 import discord
-intents = discord.Intents.all()
-bot = discord.Client(intents = intents)
+
+from discord.ext import commands
+
+bot = commands.Bot(command_prefix = "!", help_command = None)
+
 
 with open('token.txt') as f:
     TOKEN = f.readline()
@@ -8,7 +11,8 @@ with open('token.txt') as f:
 class main:
     def __init__(self):
         pass
+    bot.load_extension("commands.moderation")
+    bot.run(TOKEN)
 
 
 
-bot.run(TOKEN)
