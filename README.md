@@ -1,5 +1,5 @@
 
-# Title and Description
+# DiscoBall
 
 DiscoBall is an interative discord bot for users on discord looking for entertainment and server management
 
