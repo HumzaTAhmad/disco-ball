@@ -8,7 +8,10 @@ class moderation(commands.Cog):
     def _init_(self, bot):
         self.bot = bot
 
-    
+    def starts_with_a(msg):
+        return msg.content.startswith("!purge")
+
+    #function that returns the available commands that can be executed by the bot
     @commands.command(aliases = ["about"])
     async def help(self, context):
         myEmbed = discord.Embed(title = "Commands", description = "These are the commands that you can use for this bot.", color = discord.Colour.dark_purple())
@@ -18,7 +21,9 @@ class moderation(commands.Cog):
         #myEmbed.add_field(name = "!RPS", value = "This command allows you to play a game of rock paper scissors with the bot.", inline=False)
         await context.send(embed = myEmbed)
 
+    #function that can stop the bot from running
     @commands.command()
+    @commands.has_role("Owner")
     async def shutdown(self, context):
         if context.message.author.id == 322220501898362880: #replace OWNERID with your user id
             print("shutdown")
@@ -30,6 +35,19 @@ class moderation(commands.Cog):
         else:
             await context.send("You do not own this bot!")
 
+    #function that allows you to delete many messages at once
+    @bot.command()
+    @commands.has_role("Owner")
+    async def purge(context, amount, day: int = None, month: int = None, year: int = datetime.now().year):  # type: ignore
+        if amount == "/":
+            if day == None or month == None:
+                return 
+            else:
+                await context.channel.purge(after = datetime(year, month, day), check = starts_with_a)
+        else:
+            await context.channel.purge(limit = int(amount)+1, check = starts_with_a)
+
+    #Group of function that can be used to edit server
     @commands.group()
     async def edit(self, context):
         pass
@@ -59,6 +77,30 @@ class moderation(commands.Cog):
     async def create_role(self, context, *, input):
         await context.guild.create_role(name= input)
 
+    #functions that allow you to moderate members in a voice channel
+    @commands.command()
+    async def mute(self, context, user: discord.Member):
+        await user.edit(mute = True)
+
+    @commands.command()
+    async def unmute(self, context, user: discord.Member):
+        await user.edit(mute = False)
+
+    @commands.command()
+    async def deafen(self, context, user: discord.Member):
+        await user.edit(deafen = True)
+
+
+    @commands.command()
+    async def undeafen(self, context, user: discord.Member):
+        await user.edit(defean = False)
+
+    @bot.command()
+    async def voicekick(context, user: discord.Member):
+        await user.edit(voice_channel = None)
+
+
+    #group of functions that allow you to moderate over user kick, ban, unban. And their specific errorhandlers
     @commands.command()
     @commands.has_role("Owner")
     async def kick(self, context, member: discord.Member, *, reason = None):
