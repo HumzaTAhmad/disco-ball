@@ -30,8 +30,8 @@ Download Python, then:
 
 WINDOWS
 1. Open up your Command Prompt (go the Windows Search Bar and type in "cmd"
-2. Type in this command: "py -3 -m pip install -U discord.py[voice]"
-   (if that doesn't work, try "pip install -U discord.py[voice]")
+2. Type in this command: ```bash py -3 -m pip install -U discord.py[voice]```
+   (if that doesn't work, try ```bash pip install -U discord.py[voice]```)
 3. [Download FFmpeg](https://ffmpeg.org/download.html)
 4. Add folder with ffmpeg.exe to environemnt variable path
 
