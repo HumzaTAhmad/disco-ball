@@ -15,6 +15,36 @@ class moderation(commands.Cog):
         #myEmbed.add_field(name = "!RPS", value = "This command allows you to play a game of rock paper scissors with the bot.", inline=False)
         await context.send(embed = myEmbed)
 
+    @commands.group()
+    async def edit(self, context):
+        pass
+
+    @edit.command()
+    async def servername(self, context, *, input):
+        await context.guild.edit(name = input)
+
+    @edit.command()
+    async def region(self, context, *, input):
+        await context.guild.edit(region = input)
+
+    @region.error
+    async def errorhandler(self, context, error):  # type: ignore
+        if isinstance(error, commands.CommandInvokeError):
+            await context.send("Please enter a valid region name.")
+
+    @edit.command()
+    async def createtextchannel(self, context, *, input):
+        await context.guild.create_text_channel(name = input)
+
+    @edit.command()
+    async def createvoicechannel(self, context, *, input):
+        await context.guild.create_voice_channel(name = input)
+
+    @edit.command()
+    async def create_role(self, context, *, input):
+        await context.guild.create_role(name= input)
+
+
 
 def setup(bot):
     bot.add_cog(moderation(bot))
