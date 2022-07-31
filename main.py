@@ -13,6 +13,7 @@ class main:
     def __init__(self):
         pass
     bot.load_extension("commands.moderation")
+    bot.load_extension("commands.announcement")
     bot.run(TOKEN)
 
 
