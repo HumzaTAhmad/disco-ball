@@ -31,6 +31,13 @@ class event(commands.Cog):
                 bot.dispatch('profanity', msg, word, channel)
                 return # So that it doesn't try to delete the message again, which will cause an error.
         await bot.process_commands(msg)
+    
+    @commands.Cog.listener()
+    async def on_member_join(member):
+        guild = member.guild
+        guildname = guild.name
+        dmchannel = await member.create_dm()
+        await dmchannel.send(f"Welcome to {guildname}!")
 
 def setup(bot):
     bot.add_cog(event(bot))
