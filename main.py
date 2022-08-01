@@ -10,7 +10,7 @@ with open('token.txt') as f:
     TOKEN = f.readline()
 
 class main:
-    
+
     def __init__(self):
         pass
 
@@ -21,17 +21,19 @@ class main:
         myEmbed.set_thumbnail(url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSuWrXM1JcQ_CKMWg6PlvVSxioV6HKlLEB-yA&usqp=CAU")
         myEmbed.add_field(name = "!edit servername", value = "This command allows you to change the server name", inline=False)
         myEmbed.add_field(name = "!edit servername", value = "This command allows you to change the server name", inline=False)
-        #myEmbed.add_field(name = "!coinflip", value = "This Command lets you flip a coind", inline=False)
+        #myEmbed.add_field(name = "!coinflip", value = "This Command lets you flip a coin", inline=False)
         #myEmbed.add_field(name = "!RPS", value = "This command allows you to play a game of rock paper scissors with the bot.", inline=False)
         await context.send(embed = myEmbed)
 
     bot.load_extension("commands.moderation")
     bot.load_extension("commands.announcement")
+    bot.load_extension("events.event")
 
     @commands.command()
     async def reload(self, context):
         bot.reload_extension("commands.moderation")
         bot.reload_extension("commands.announcement")
+        bot.reload_extension("events.event")
 
     bot.run(TOKEN)
 
