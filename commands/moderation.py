@@ -10,16 +10,6 @@ class moderation(commands.Cog):
     def starts_with(self, msg):
         return True
 
-    #function that returns the available commands that can be executed by the bot
-    @commands.command(aliases = ["about"])
-    async def help(self, context):
-        myEmbed = discord.Embed(title = "Commands", description = "These are the commands that you can use for this bot.", color = discord.Colour.dark_purple())
-        myEmbed.set_thumbnail(url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSuWrXM1JcQ_CKMWg6PlvVSxioV6HKlLEB-yA&usqp=CAU")
-        #myEmbed.add_field(name = "!ping", value = "This Command replies back with Pong whenever you write !ping.", inline=False)
-        #myEmbed.add_field(name = "!coinflip", value = "This Command lets you flip a coind", inline=False)
-        #myEmbed.add_field(name = "!RPS", value = "This command allows you to play a game of rock paper scissors with the bot.", inline=False)
-        await context.send(embed = myEmbed)
-
     #function that can stop the bot from running
     @commands.command()
     @commands.has_role("Owner")
