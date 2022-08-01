@@ -1,13 +1,36 @@
-from main import commands, bot
+from main import commands, discord, bot
     
-txt_file = open("profanity.txt", "r")
-badwords = txt_file.readlines()
+with open('profanity.txt') as f:
+    badwords = f.read()
+    badwords_list = badwords.split(",")
 
 
-class event(commands.Cog()):
+class event(commands.Cog):
 
     def _init_(self, bot):
         self.bot = bot
 
-    
+    @commands.Cog.listener()
+    async def on_profanity(self, message, word, channel):
+        server_logo = message.guild.icon_url_as(size=1024)
+        embed = discord.Embed(title="Profanity Alert!",description=f"{message.author.name} just said ||{word}||", color=discord.Color.blurple()) # Let's make an embed!
+        await channel.send(embed=embed)
 
+    @commands.Cog.listener()
+    async def on_ready(self):
+        print("BOT IS ONLINE")
+
+    @commands.Cog.listener()
+    async def on_message(self, msg):
+        username = msg.author.display_name
+        channel = msg.channel
+        for word in badwords_list:
+            if word in msg.content:
+                await msg.delete()
+                await msg.channel.send(f"{username} Don't use that word!")
+                bot.dispatch('profanity', msg, word, channel)
+                return # So that it doesn't try to delete the message again, which will cause an error.
+        await bot.process_commands(msg)
+
+def setup(bot):
+    bot.add_cog(event(bot))
