@@ -1,4 +1,3 @@
-import calendar
 
 from main import discord, commands, bot
 from datetime import datetime
@@ -8,8 +7,8 @@ class moderation(commands.Cog):
     def _init_(self, bot):
         self.bot = bot
 
-    def starts_with_a(msg):
-        return msg.content.startswith("!purge")
+    def starts_with(self, msg):
+        return True
 
     #function that returns the available commands that can be executed by the bot
     @commands.command(aliases = ["about"])
@@ -36,16 +35,16 @@ class moderation(commands.Cog):
             await context.send("You do not own this bot!")
 
     #function that allows you to delete many messages at once
-    @bot.command()
+    @commands.command()
     @commands.has_role("Owner")
-    async def purge(context, amount, day: int = None, month: int = None, year: int = datetime.now().year):  # type: ignore
+    async def purge(self, context, amount, day: int = None, month: int = None, year: int = datetime.now().year):  # type: ignore
         if amount == "/":
             if day == None or month == None:
                 return 
             else:
-                await context.channel.purge(after = datetime(year, month, day), check = starts_with_a)
+                await context.channel.purge(after = datetime(year, month, day), check = self.starts_with)
         else:
-            await context.channel.purge(limit = int(amount)+1, check = starts_with_a)
+            await context.channel.purge(limit = int(amount)+1, check = self.starts_with)
 
     #Group of function that can be used to edit server
     @commands.group()
@@ -95,7 +94,7 @@ class moderation(commands.Cog):
     async def undeafen(self, context, user: discord.Member):
         await user.edit(defean = False)
 
-    @bot.command()
+    @commands.command()
     async def voicekick(context, user: discord.Member):
         await user.edit(voice_channel = None)
 
