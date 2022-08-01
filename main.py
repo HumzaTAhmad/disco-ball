@@ -10,6 +10,7 @@ with open('token.txt') as f:
     TOKEN = f.readline()
 
 class main:
+    
     def __init__(self):
         pass
 
@@ -23,7 +24,7 @@ class main:
         #myEmbed.add_field(name = "!coinflip", value = "This Command lets you flip a coind", inline=False)
         #myEmbed.add_field(name = "!RPS", value = "This command allows you to play a game of rock paper scissors with the bot.", inline=False)
         await context.send(embed = myEmbed)
-        
+
     bot.load_extension("commands.moderation")
     bot.load_extension("commands.announcement")
 
