@@ -5,7 +5,7 @@ with open('profanity.txt') as f:
     badwords_list = badwords.split(",")
 
 
-class event(commands.Cog):
+class Event(commands.Cog):
 
     def _init_(self, bot):
         self.bot = bot
@@ -40,4 +40,4 @@ class event(commands.Cog):
         await dmchannel.send(f"Welcome to {guildname}!")
 
 def setup(bot):
-    bot.add_cog(event(bot))
+    bot.add_cog(Event(bot))

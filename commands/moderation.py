@@ -2,7 +2,7 @@
 from main import discord, commands, bot
 from datetime import datetime
 
-class moderation(commands.Cog):
+class Moderation(commands.Cog):
     
     def _init_(self, bot):
         self.bot = bot
@@ -127,4 +127,4 @@ class moderation(commands.Cog):
             await context.send("You don't have the necessary Roles for this command")
 
 def setup(bot):
-    bot.add_cog(moderation(bot))
+    bot.add_cog(Moderation(bot))

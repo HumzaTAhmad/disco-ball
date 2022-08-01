@@ -3,7 +3,7 @@ import calendar
 from main import discord, commands, bot
 from datetime import datetime
 
-class announcement(commands.Cog):
+class Announcement(commands.Cog):
 
     def _init_(self, bot):
         self.bot = bot
@@ -41,4 +41,4 @@ class announcement(commands.Cog):
             await context.send(embed = myEmbed)
 
 def setup(bot):
-    bot.add_cog(announcement(bot))
+    bot.add_cog(Announcement(bot))

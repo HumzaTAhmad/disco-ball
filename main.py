@@ -27,12 +27,14 @@ class main:
 
     bot.load_extension("commands.moderation")
     bot.load_extension("commands.announcement")
+    bot.load_extension("commands.music")
     bot.load_extension("events.event")
 
     @commands.command()
     async def reload(self, context):
         bot.reload_extension("commands.moderation")
         bot.reload_extension("commands.announcement")
+        bot.reload_extension("commands.music")
         bot.reload_extension("events.event")
 
     bot.run(TOKEN)
