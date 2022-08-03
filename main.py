@@ -1,5 +1,6 @@
 import discord
 
+
 from discord.ext import tasks, commands
 
 intents = discord.Intents.all()
@@ -9,11 +10,12 @@ bot = commands.Bot(command_prefix = "!", help_command = None, intents = intents)
 with open('token.txt') as f:
     TOKEN = f.readline()
 
-class main:
+class Main:
 
-    def __init__(self):
-        pass
-
+    def __init__(self, bot):
+        self.bot = bot
+    
+    
     #function that returns the available commands that can be executed by the bot
     @commands.command(aliases = ["about"])
     async def help(self, context):
@@ -25,9 +27,11 @@ class main:
         #myEmbed.add_field(name = "!RPS", value = "This command allows you to play a game of rock paper scissors with the bot.", inline=False)
         await context.send(embed = myEmbed)
 
+
     bot.load_extension("commands.moderation")
     bot.load_extension("commands.announcement")
     bot.load_extension("commands.music")
+    bot.load_extension("commands.assistance")
     bot.load_extension("events.event")
 
     @commands.command()
@@ -35,6 +39,7 @@ class main:
         bot.reload_extension("commands.moderation")
         bot.reload_extension("commands.announcement")
         bot.reload_extension("commands.music")
+        bot.reload_extension("commands.assistance")
         bot.reload_extension("events.event")
 
     bot.run(TOKEN)
