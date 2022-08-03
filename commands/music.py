@@ -62,8 +62,6 @@ class PlayMusic(commands.Cog):
             os.remove(f"{file}.mp4")
         queuelist.clear()
 
-        voice.stop()
-
         for file in filestodelete:
             os.remove(f"{file}.mp4")
         filestodelete.clear()
