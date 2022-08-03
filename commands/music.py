@@ -66,6 +66,30 @@ class PlayMusic(commands.Cog):
             os.remove(f"{file}.mp4")
         filestodelete.clear()
     
+    @tasks.loop(minutes = 120)
+    async def clear_loop(self, context):
+    
+        for file in queuelist:
+            os.remove(f"{file}.mp4")
+        queuelist.clear()
+
+        for file in filestodelete:
+            os.remove(f"{file}.mp4")
+        filestodelete.clear()
+
+        print("Cleared the queue")
+
+    
+    @commands.command()
+    @commands.has_role("Owner")
+    async def clear_loop_start(self, context):
+        self.clear_loop.start(context)
+
+    @commands.command()
+    @commands.has_role("Owner")
+    async def clear_loop_stop(self, context):
+        self.clear_loop.stop()
+
     @commands.command()
     async def viewqueue(self, context):
         await context.send(f"Queue: ** {str(queuelist)} **")
