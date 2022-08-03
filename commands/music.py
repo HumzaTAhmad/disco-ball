@@ -38,6 +38,15 @@ class PlayMusic(commands.Cog):
 
     @commands.command()
     @commands.has_role("DJ")
+    async def resume(self, context):
+        voice = context.voice_client
+        if voice.is_playing() == True:
+            await context.send("Bot is playing Audio!")
+        else:
+            voice.resume()
+
+    @commands.command()
+    @commands.has_role("DJ")
     async def play(self, context, *, searchword):
         ydl_opts = {}
         voice = context.voice_client
