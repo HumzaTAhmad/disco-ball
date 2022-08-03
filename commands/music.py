@@ -24,8 +24,17 @@ class PlayMusic(commands.Cog):
     
     @commands.command()
     @commands.has_role("DJ")
-    async def leave(context):
+    async def leave( self, context):
         await context.voice_client.disconnect()
+    
+    @commands.command()
+    @commands.has_role("DJ")
+    async def pause(self, context):
+        voice = context.voice_client
+        if voice.is_playing() == True:
+            voice.pause()
+        else:
+            await context.send("Bot is not playing Audio!")
 
     @commands.command()
     @commands.has_role("DJ")
