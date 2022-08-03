@@ -44,6 +44,10 @@ class PlayMusic(commands.Cog):
             await context.send("Bot is playing Audio!")
         else:
             voice.resume()
+    
+    @commands.command()
+    async def viewqueue(self, context):
+        await context.send(f"Queue: ** {str(queuelist)} **")
 
     @commands.command()
     @commands.has_role("DJ")
