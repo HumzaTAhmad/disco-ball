@@ -8,6 +8,7 @@ from youtubesearchpython import VideosSearch
 
 
 queuelist = []
+
 filestodelete = []
 
 class PlayMusic(commands.Cog):
@@ -20,7 +21,11 @@ class PlayMusic(commands.Cog):
     async def join(self, context):
         channel = context.author.voice.channel
         await channel.connect()
-
+    
+    @commands.command()
+    @commands.has_role("DJ")
+    async def leave(context):
+        await context.voice_client.disconnect()
 
     @commands.command()
     @commands.has_role("DJ")
