@@ -8,7 +8,6 @@ from youtubesearchpython import VideosSearch
 
 
 queuelist = []
-
 filestodelete = []
 
 class PlayMusic(commands.Cog):
@@ -44,6 +43,15 @@ class PlayMusic(commands.Cog):
             await context.send("Bot is playing Audio!")
         else:
             voice.resume()
+
+    @commands.command(aliases = ["skip"])
+    @commands.has_role("DJ")
+    async def stop(self, context):
+        voice = context.voice_client
+        if voice.is_playing() == True:
+            voice.stop()
+        else:
+            await context.send("Bot is not playing Audio!")
     
     @commands.command()
     async def viewqueue(self, context):
