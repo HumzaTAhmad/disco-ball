@@ -30,7 +30,7 @@ class Event(commands.Cog):
                 await msg.channel.send(f"{username} Don't use that word!")
                 bot.dispatch('profanity', msg, word, channel)
                 return # So that it doesn't try to delete the message again, which will cause an error.
-        await bot.process_commands(msg)
+        #await bot.process_commands(msg) #Default one_message listener already calls process_commands, so we are calling it twice here
     
     @commands.Cog.listener()
     async def on_member_join(member):

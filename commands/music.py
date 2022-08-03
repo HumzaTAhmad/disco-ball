@@ -1,7 +1,7 @@
 import asyncio
 import json, os
 
-from main import discord, commands, bot
+from main import discord, commands, bot, tasks
 from discord.ext import commands
 from pytube import YouTube
 from youtubesearchpython import VideosSearch
@@ -43,7 +43,7 @@ class PlayMusic(commands.Cog):
             await context.send("Bot is playing Audio!")
         else:
             voice.resume()
-
+    
     @commands.command(aliases = ["skip"])
     @commands.has_role("DJ")
     async def stop(self, context):
@@ -52,6 +52,21 @@ class PlayMusic(commands.Cog):
             voice.stop()
         else:
             await context.send("Bot is not playing Audio!")
+
+    
+    @commands.command()
+    @commands.has_role("DJ")
+    async def clear(self, context):
+        voice = context.voice_client
+        for file in queuelist:
+            os.remove(f"{file}.mp4")
+        queuelist.clear()
+
+        voice.stop()
+
+        for file in filestodelete:
+            os.remove(f"{file}.mp4")
+        filestodelete.clear()
     
     @commands.command()
     async def viewqueue(self, context):
