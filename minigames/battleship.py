@@ -11,6 +11,7 @@ class battleship(commands.Cog):
         self.board2 = ""
         self.boardtoshow1 = ""
         self.boardtoshow2 = ""
+        self.turn = ""
 
     @commands.command()
     async def render(self, context, board):
@@ -38,8 +39,9 @@ class battleship(commands.Cog):
     @commands.command()
     async def battleships(self, context, player2: discord.Member, ver: int = 5, hor: int=5):
         self.playing = True
-        self.player1 = context.author
-        self.player2 = player2
+        self.player1 = context.author #This is now in the constructor
+        self.player2 = player2        #This is now in the constructor
+        self.turn = self.player1
         self.board1 = [[":blue_square:"]*hor for x in range(ver)]
         self.board2 = [[":blue_square:"]*hor for x in range(ver)]
         self.boardtoshow1 = [[":blue_square:"]*hor for x in range(ver)]
@@ -78,52 +80,61 @@ class battleship(commands.Cog):
 
     @commands.command()
     async def shoot(self, context, coordinate):
-        if self.playing == True:
-
-            if context.author == self.player1:
-                boardtoshoot = self.board2
-                boardtoshow = self.boardtoshow2
-            
-            if context.author == self.player2:
-                boardtoshoot = self.board1
-                boardtoshow = self.boardtoshow1
-
-            loweralphabet = coordinate[0].lower()
-            number = coordinate[1]
-            x = ord(loweralphabet) - 97
-            y = int(number) - 1
-            square = boardtoshoot[y][x]
-
-            if square == ":ship:":
-                await context.send("Hit!")
-                boardtoshoot[y][x] = ":boom:"
-                boardtoshow[y][x] = ":boom:"
-            
-            if square == ":blue_square:":
-                await context.send("No Hit.")
-                boardtoshoot[y][x] = ":white_medium_square:"
-                boardtoshow[y][x] = ":white_medium_square:"
-            
-            if square == ":white_medium_square:" or square == ":boom:":
-                await context.send("You have already shot this square, try again.")
-            
-            await self.render(context.author, boardtoshow)
-
-            if self.shipcount(boardtoshoot) == 0:
-                self.playing = False
+        if self.turn == context.author:
+            if self.playing == True:
 
                 if context.author == self.player1:
-                    await self.player1.send("You have won the Game!")
-
-                    await self.player2.send("You have lost the Game!")
-                    await self.render(self.player2, self.board1)
+                    boardtoshoot = self.board2
+                    boardtoshow = self.boardtoshow2
+                    previousshooter = self.player1
+                    nextshooter = self.player2
                 
                 if context.author == self.player2:
-                    await self.player2.send("You have won the Game!")
+                    boardtoshoot = self.board1
+                    boardtoshow = self.boardtoshow1
+                    previousshooter = self.player2
+                    nextshooter = self.player1
 
-                    await self.player1.send("You have lost the Game!")
-                    await self.render(self.player1, self.board2)
+                loweralphabet = coordinate[0].lower()
+                number = coordinate[1]
+                x = ord(loweralphabet) - 97
+                y = int(number) - 1
+                square = boardtoshoot[y][x]
 
+                if square == ":ship:":
+                    await context.send("Hit!")
+                    boardtoshoot[y][x] = ":boom:"
+                    boardtoshow[y][x] = ":boom:"
+                
+                if square == ":blue_square:":
+                    await context.send("No Hit.")
+                    boardtoshoot[y][x] = ":white_medium_square:"
+                    boardtoshow[y][x] = ":white_medium_square:"
+                    self.turn = nextshooter
+                    await previousshooter.send("You turn has ended.")
+                    await nextshooter.send("Its your turn to shoot.")
+                
+                if square == ":white_medium_square:" or square == ":boom:":
+                    await context.send("You have already shot this square, try again.")
+                
+                await self.render(context.author, boardtoshow)
+
+                if self.shipcount(boardtoshoot) == 0:
+                    self.playing = False
+
+                    if context.author == self.player1:
+                        await self.player1.send("You have won the Game!")
+
+                        await self.player2.send("You have lost the Game!")
+                        await self.render(self.player2, self.board1)
+                    
+                    if context.author == self.player2:
+                        await self.player2.send("You have won the Game!")
+
+                        await self.player1.send("You have lost the Game!")
+                        await self.render(self.player1, self.board2)
+        else:
+            await context.send("Its not your turn!")
 
     [[":blue_square:", ":blue_square:", ":blue_square:", ":blue_square:", ":blue_square:"],
     [":blue_square:", ":blue_square:", ":blue_square:", ":blue_square:", ":blue_square:"],
