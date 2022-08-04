@@ -76,6 +76,54 @@ class battleship(commands.Cog):
                 board[y][x] = ":ship:"               # type: ignore
             await self.render(context.author,board)  # type: ignore
 
+    @commands.command()
+    async def shoot(self, context, coordinate):
+        if self.playing == True:
+
+            if context.author == self.player1:
+                boardtoshoot = self.board2
+                boardtoshow = self.boardtoshow2
+            
+            if context.author == self.player2:
+                boardtoshoot = self.board1
+                boardtoshow = self.boardtoshow1
+
+            loweralphabet = coordinate[0].lower()
+            number = coordinate[1]
+            x = ord(loweralphabet) - 97
+            y = int(number) - 1
+            square = boardtoshoot[y][x]
+
+            if square == ":ship:":
+                await context.send("Hit!")
+                boardtoshoot[y][x] = ":boom:"
+                boardtoshow[y][x] = ":boom:"
+            
+            if square == ":blue_square:":
+                await context.send("No Hit.")
+                boardtoshoot[y][x] = ":white_medium_square:"
+                boardtoshow[y][x] = ":white_medium_square:"
+            
+            if square == ":white_medium_square:" or square == ":boom:":
+                await context.send("You have already shot this square, try again.")
+            
+            await self.render(context.author, boardtoshow)
+
+            if self.shipcount(boardtoshoot) == 0:
+                self.playing = False
+
+                if context.author == self.player1:
+                    await self.player1.send("You have won the Game!")
+
+                    await self.player2.send("You have lost the Game!")
+                    await self.render(self.player2, self.board1)
+                
+                if context.author == self.player2:
+                    await self.player2.send("You have won the Game!")
+
+                    await self.player1.send("You have lost the Game!")
+                    await self.render(self.player1, self.board2)
+
 
     [[":blue_square:", ":blue_square:", ":blue_square:", ":blue_square:", ":blue_square:"],
     [":blue_square:", ":blue_square:", ":blue_square:", ":blue_square:", ":blue_square:"],
