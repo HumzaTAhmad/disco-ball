@@ -14,11 +14,7 @@ class Main:
 
     def __init__(self, bot):
         self.bot = bot
-        self.playing = False
-        self.board1 = ""
-        self.board2 = ""
-        self.boardtoshow1 = ""
-        self.boardtoshow2 = ""
+        
     
     
     #function that returns the available commands that can be executed by the bot
