@@ -14,6 +14,11 @@ class Main:
 
     def __init__(self, bot):
         self.bot = bot
+        self.playing = False
+        self.board1 = ""
+        self.board2 = ""
+        self.boardtoshow1 = ""
+        self.boardtoshow2 = ""
     
     
     #function that returns the available commands that can be executed by the bot
@@ -33,6 +38,7 @@ class Main:
     bot.load_extension("commands.music")
     bot.load_extension("commands.assistance")
     bot.load_extension("events.event")
+    bot.load_extension("minigames.battleship")
 
     @commands.command()
     async def reload(self, context):
@@ -41,6 +47,7 @@ class Main:
         bot.reload_extension("commands.music")
         bot.reload_extension("commands.assistance")
         bot.reload_extension("events.event")
+        bot.reload_extension("minigames.battleship")
 
     bot.run(TOKEN)
 
