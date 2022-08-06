@@ -35,7 +35,7 @@ class Main:
     bot.load_extension("commands.assistance")
     bot.load_extension("events.event")
     bot.load_extension("minigames.battleship")
-    bot.load_extension("minigames.poll")
+    bot.load_extension("minigames.polls")
 
     @commands.command()
     async def reload(self, context):
@@ -45,7 +45,7 @@ class Main:
         bot.reload_extension("commands.assistance")
         bot.reload_extension("events.event")
         bot.reload_extension("minigames.battleship")
-        bot.reload_extension("minigames.poll")
+        bot.reload_extension("minigames.polls")
 
     bot.run(TOKEN)
 
