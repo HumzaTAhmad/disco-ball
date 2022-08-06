@@ -4,7 +4,7 @@ from main import discord, commands, bot
 
 class battleship(commands.Cog):
 
-    def _init_(self, bot):
+    def __init__(self, bot):
         self.bot = bot
         self.playing = False
         self.board1 = ""
@@ -38,18 +38,21 @@ class battleship(commands.Cog):
 
     @commands.command()
     async def battleships(self, context, player2: discord.Member, ver: int = 5, hor: int=5):
-        self.playing = True
-        self.player1 = context.author #This is now in the constructor
-        self.player2 = player2        #This is now in the constructor
-        self.turn = self.player1
-        self.board1 = [[":blue_square:"]*hor for x in range(ver)]
-        self.board2 = [[":blue_square:"]*hor for x in range(ver)]
-        self.boardtoshow1 = [[":blue_square:"]*hor for x in range(ver)]
-        self.boardtoshow2 = [[":blue_square:"]*hor for x in range(ver)]
-        await self.render(self.player1, self.board1)
-        await self.render(self.player2, self.board2)
-        await self.player1.send("Welcome to Battleships! Type !place to place your ships")
-        await self.player2.send("Welcome to Battleships! Type !place to place your ships")
+        if self.playing == False:
+            self.playing = True
+            self.player1 = context.author #This is now in the constructor
+            self.player2 = player2        #This is now in the constructor
+            self.turn = self.player1
+            self.board1 = [[":blue_square:"]*hor for x in range(ver)]
+            self.board2 = [[":blue_square:"]*hor for x in range(ver)]
+            self.boardtoshow1 = [[":blue_square:"]*hor for x in range(ver)]
+            self.boardtoshow2 = [[":blue_square:"]*hor for x in range(ver)]
+            await self.render(self.player1, self.board1)
+            await self.render(self.player2, self.board2)
+            await self.player1.send("Welcome to Battleships! Type !place to place your ships")
+            await self.player2.send("Welcome to Battleships! Type !place to place your ships")
+        else:
+            await context.send("Game is already in progress.")
 
     def shipcount(self, board):
         count = 0
@@ -67,17 +70,21 @@ class battleship(commands.Cog):
                 board = self.board1
             if context.author == self.player2:
                 board = self.board2
-
-            for coordinate in coordinates:
-                if self.shipcount(board) == 6:       # type: ignore
-                    await context.send("You are only allowed to have 6 ships")
-                alphabet = coordinate[0].lower()
-                number = coordinate[1]
-                x = ord(alphabet) - 97 #allows alpahbet a to start at 0
-                y = int(number) - 1
-                board[y][x] = ":ship:"               # type: ignore
-            await self.render(context.author,board)  # type: ignore
-
+            if len(coordinates) == 0:
+                await context.send("Please type in the coordinates.")
+            else:
+                for coordinate in coordinates:
+                    if self.shipcount(board) == 6:       # type: ignore
+                        await context.send("You are only allowed to have 6 ships")
+                    alphabet = coordinate[0].lower()
+                    number = coordinate[1]
+                    x = ord(alphabet) - 97 #allows alpahbet a to start at 0
+                    y = int(number) - 1
+                    board[y][x] = ":ship:"               # type: ignore
+                await self.render(context.author,board)  # type: ignore
+        else:
+             await context.send("Please start a game by typing !battleships.")
+             
     @commands.command()
     async def shoot(self, context, coordinate):
         if self.turn == context.author:
@@ -133,14 +140,25 @@ class battleship(commands.Cog):
 
                         await self.player1.send("You have lost the Game!")
                         await self.render(self.player1, self.board2)
+            else:
+                await context.send("Please start a game by typing !battleships.")
         else:
             await context.send("Its not your turn!")
 
-    [[":blue_square:", ":blue_square:", ":blue_square:", ":blue_square:", ":blue_square:"],
-    [":blue_square:", ":blue_square:", ":blue_square:", ":blue_square:", ":blue_square:"],
-    [":blue_square:", ":blue_square:", ":blue_square:", ":blue_square:", ":blue_square:"],
-    [":blue_square:", ":blue_square:", ":blue_square:", ":blue_square:", ":blue_square:"],
-    [":blue_square:", ":blue_square:",":blue_square:",":blue_square:",":blue_square:"]]
+    @battleships.error
+    async def errorhandler(self,context,error):
+        if isinstance(error,commands.errors.MissingRequiredArgument):
+            await context.send("Please mention the second player.")
+    
+    @shoot.error
+    async def errorhandler(self,context,error):
+        if isinstance(error,commands.errors.MissingRequiredArgument):
+            await context.send("Please define the coordinate")
+ 
+    @place.error
+    async def errorhandler(self,context,error):
+        if isinstance(error,commands.errors.CommandInvokeError):
+            await context.send("Please type in a proper coordinate")
 
 def setup(bot):
     bot.add_cog(battleship(bot))
