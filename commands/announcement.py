@@ -9,6 +9,7 @@ class Announcement(commands.Cog):
         self.bot = bot
 
     @commands.command()
+    @commands.has_role("Admin")
     async def newadmin(self, context, new_admin: discord.Member):
         guild = context.guild
 

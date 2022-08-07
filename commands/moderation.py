@@ -42,10 +42,12 @@ class Moderation(commands.Cog):
         pass
 
     @edit.command()
+    @commands.has_role("Owner")
     async def servername(self, context, *, input):
         await context.guild.edit(name = input)
 
     @edit.command()
+    @commands.has_role("Owner")
     async def region(self, context, *, input):
         await context.guild.edit(region = input)
 
@@ -55,36 +57,44 @@ class Moderation(commands.Cog):
             await context.send("Please enter a valid region name.")
 
     @edit.command()
+    @commands.has_role("Admin")
     async def createtextchannel(self, context, *, input):
         await context.guild.create_text_channel(name = input)
 
     @edit.command()
+    @commands.has_role("Admin")
     async def createvoicechannel(self, context, *, input):
         await context.guild.create_voice_channel(name = input)
 
     @edit.command()
+    @commands.has_role("Admin")
     async def create_role(self, context, *, input):
         await context.guild.create_role(name= input)
 
     #functions that allow you to moderate members in a voice channel
     @commands.command()
+    @commands.has_role("Admin")
     async def mute(self, context, user: discord.Member):
         await user.edit(mute = True)
 
     @commands.command()
+    @commands.has_role("Admin")
     async def unmute(self, context, user: discord.Member):
         await user.edit(mute = False)
 
     @commands.command()
+    @commands.has_role("Admin")
     async def deafen(self, context, user: discord.Member):
         await user.edit(deafen = True)
 
 
     @commands.command()
+    @commands.has_role("Admin")
     async def undeafen(self, context, user: discord.Member):
         await user.edit(defean = False)
 
     @commands.command()
+    @commands.has_role("Admin")
     async def voicekick(context, user: discord.Member):
         await user.edit(voice_channel = None)
 

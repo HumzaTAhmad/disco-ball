@@ -26,6 +26,7 @@ class Main:
     bot.load_extension("commands.assistance")
     bot.load_extension("events.event")
     bot.load_extension("minigames.battleship")
+    bot.load_extension("minigames.small_minigames")
     bot.load_extension("minigames.polls")
 
     @commands.command()
