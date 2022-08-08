@@ -1,14 +1,15 @@
 import discord
-
+import os
 
 from discord.ext import tasks, commands
+from dotenv import load_dotenv
 
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix = "!", help_command = None, intents = intents)
 
 
-with open('token.txt') as f:
-    TOKEN = f.readline()
+load_dotenv('.env')
+TOKEN = os.getenv("TOKEN")
 
 class Main:
 
