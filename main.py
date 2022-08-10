@@ -5,7 +5,7 @@ from discord.ext import tasks, commands
 from dotenv import load_dotenv
 
 intents = discord.Intents.all()
-bot = commands.Bot(command_prefix = "!", help_command = None, intents = intents)
+bot = commands.Bot(command_prefix = "-", help_command = None, intents = intents)
 
 
 load_dotenv('.env')

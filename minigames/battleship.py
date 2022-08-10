@@ -49,8 +49,8 @@ class battleship(commands.Cog):
             self.boardtoshow2 = [[":blue_square:"]*hor for x in range(ver)]
             await self.render(self.player1, self.board1)
             await self.render(self.player2, self.board2)
-            await self.player1.send("Welcome to Battleships! Type !place to place your ships")
-            await self.player2.send("Welcome to Battleships! Type !place to place your ships")
+            await self.player1.send("Welcome to Battleships! Type -place to place your ships")
+            await self.player2.send("Welcome to Battleships! Type -place to place your ships")
         else:
             await context.send("Game is already in progress.")
 
@@ -83,7 +83,7 @@ class battleship(commands.Cog):
                     board[y][x] = ":ship:"               # type: ignore
                 await self.render(context.author,board)  # type: ignore
         else:
-             await context.send("Please start a game by typing !battleships.")
+             await context.send("Please start a game by typing -battleships.")
              
     @commands.command()
     async def shoot(self, context, coordinate):
@@ -141,7 +141,7 @@ class battleship(commands.Cog):
                         await self.player1.send("You have lost the Game!")
                         await self.render(self.player1, self.board2)
             else:
-                await context.send("Please start a game by typing !battleships.")
+                await context.send("Please start a game by typing -battleships.")
         else:
             await context.send("Its not your turn!")
 
