@@ -65,8 +65,17 @@ class PlayMusic(commands.Cog):
         for file in filestodelete:
             os.remove(f"{file}.mp4")
         filestodelete.clear()
+        
+        target = 'C:\\Users\\humza\\OneDrive\\Discord Bots\\disco-ball'
+
+        for x in os.listdir(target):
+            if x.endswith('.mp4'):
+                os.unlink(x)
+        
+        await context.send("Cleared the queue")
+
     
-    @tasks.loop(minutes = 120)
+    @tasks.loop(minutes = 60)
     async def clear_loop(self, context):
     
         for file in queuelist:
@@ -77,6 +86,12 @@ class PlayMusic(commands.Cog):
             os.remove(f"{file}.mp4")
         filestodelete.clear()
 
+        target = 'C:\\Users\\humza\\OneDrive\\Discord Bots\\disco-ball'
+
+        for x in os.listdir(target):
+            if x.endswith('.mp4'):
+                os.unlink(x)
+
         print("Cleared the queue")
 
     
@@ -84,6 +99,7 @@ class PlayMusic(commands.Cog):
     @commands.has_role("Owner")
     async def clear_loop_start(self, context):
         self.clear_loop.start(context)
+        await context.send("Loop started")
 
     @commands.command()
     @commands.has_role("Owner")
