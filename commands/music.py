@@ -66,7 +66,7 @@ class PlayMusic(commands.Cog):
             os.remove(f"{file}.mp4")
         filestodelete.clear()
         
-        target = 'C:\\Users\\humza\\OneDrive\\Discord Bots\\disco-ball'
+        target = '/home/ubuntu/disco-ball'
 
         for x in os.listdir(target):
             if x.endswith('.mp4'):
@@ -86,7 +86,7 @@ class PlayMusic(commands.Cog):
             os.remove(f"{file}.mp4")
         filestodelete.clear()
 
-        target = 'C:\\Users\\humza\\OneDrive\\Discord Bots\\disco-ball'
+        target = '/home/ubuntu/disco-ball'
 
         for x in os.listdir(target):
             if x.endswith('.mp4'):
