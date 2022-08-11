@@ -9,7 +9,7 @@ class smallMiniGames(commands.Cog):
         self.bot = bot
     
     @commands.command()
-    async def RPS(context, hand):
+    async def RPS(self, context, hand):
         hands = ["✌️", "🤚", "✊"]
         bothand = random.choice(hands)
         
@@ -33,7 +33,7 @@ class smallMiniGames(commands.Cog):
                 await context.send("You Lose!")
                 
     @commands.command()
-    async def coinflip(context):
+    async def coinflip(self, context):
         num = random.randint(1,2)
 
         if num == 1:
