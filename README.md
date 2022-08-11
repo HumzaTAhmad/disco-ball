@@ -2,6 +2,7 @@
 # DiscoBall
 
 DiscoBall is an interative discord bot for users on discord looking for entertainment and server management
+https://humzatahmad.github.io/landing-page-discoball/
 
 
 ## Roadmap
